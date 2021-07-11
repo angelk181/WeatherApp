@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="windSpeed">10km/h</string>
+    <string name="weatherDescription">Cloudy</string>
+    <string name="temperature">20C</string>
+    <string name="city">London</string>
+    <string name="title_enable_gps">Enable GPS</string>
+    <string name="desc_enable_gps">GPS is not enabled. Do you want to go to settings menu?</string>
+    <string name="btn_settings">Open Settings</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="no_network_msg">Oh no! :( No internet connection. Please check your internet connection and try again :)</string>
+</resources>
