@@ -1,5 +1,5 @@
 # WeatherApp
-A weather app that uses Jetpack libaries and displays your local forecast via a weather REST API. Uploaded to the playstore.
+A weather app written in Kotlin that displays your local forecast via a weather REST API. Uploaded to the playstore.
 
 ## Screenshots
 ![my image](screenshot1.jpg#left)
