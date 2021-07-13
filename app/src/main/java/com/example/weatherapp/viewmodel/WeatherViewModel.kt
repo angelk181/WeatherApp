@@ -38,7 +38,6 @@ constructor(private val repository: WeatherRepository) : ViewModel() {
         6 to "Saturday"
     )
 
-
     val day1: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
@@ -49,17 +48,10 @@ constructor(private val repository: WeatherRepository) : ViewModel() {
         MutableLiveData<String>()
     }
 
-
-
-
-
-
     init {
         getWeather()
 
     }
-
-
 
     private fun getWeather() = viewModelScope.launch {
         repository.getWeather().let { response ->
@@ -73,13 +65,5 @@ constructor(private val repository: WeatherRepository) : ViewModel() {
             }
         }
     }
-
-    private fun initForecast() {
-
-
-    }
-
-
-
 
 }
