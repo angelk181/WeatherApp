@@ -17,8 +17,6 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import java.time.DayOfWeek
-import java.time.LocalDate
 import java.util.*
 
 @AndroidEntryPoint
@@ -62,7 +60,6 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-
         /**
          * observes weather response and applies data
          * from repository to the views
@@ -72,19 +69,20 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
 
                     binding.apply {
 
-
                         tvTemperature.text = weather.temperature
                         tvDescription.text = weather.description
                         tvWind.text = weather.wind
+
+
 
                         val forecast1 = weather.forecast[0]
                         val forecast2 = weather.forecast[1]
                         val forecast3 = weather.forecast[2]
 
-
                         tvForecast1.text = "${forecast1.temperature}/${forecast2.wind}"
                         tvForecast2.text = "${forecast2.temperature}/${forecast2.wind}"
                         tvForecast3.text = "${forecast3.temperature}/${forecast2.wind}"
+
 
                         val rainResult = pattern1.containsMatchIn(weather.description)
                         val snowResult = pattern2.containsMatchIn(weather.description)
@@ -142,6 +140,7 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
 
                 })
 
+
         weatherViewModel.apiResponse.observe(this, {
             response ->
             when (response) {
@@ -155,29 +154,31 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
             }
         }
         )
+        weatherViewModel.day1.observe(this, {
+            binding.tvDay1.text = it
+
+        }
+        )
+        weatherViewModel.day2.observe(this,) {
+            binding.tvDay2.text = it
+        }
+        weatherViewModel.day3.observe(this, {
+            binding.tvDay3.text = it
+        }
+        )
 
         forecastDays()
 
     }
 
     private fun forecastDays() {
-        // maps days to a number
-        val daysMap = mapOf(
-            0 to "Sunday",
-            1 to "Monday",
-            2 to "Tuesday",
-            3 to "Wednesday",
-            4 to "Thursday",
-            5 to "Friday",
-            6 to "Saturday"
-        )
-        val dayOfWeek: DayOfWeek = LocalDate.now().dayOfWeek
-        val dayNum: Int = dayOfWeek.value
-        // increase the day number by 1,2 or 3
-        binding.tvDay1.text = daysMap[(dayNum + 1) % 7]
-        binding.tvDay2.text = daysMap[(dayNum + 2) % 7]
-        binding.tvDay3.text = daysMap[(dayNum + 3) % 7]
+
+        weatherViewModel.day1.value = weatherViewModel.daysMap[(weatherViewModel.dayNum + 1) % 7]
+        weatherViewModel.day2.value = weatherViewModel.daysMap[(weatherViewModel.dayNum + 2) % 7]
+        weatherViewModel.day3.value = weatherViewModel.daysMap[(weatherViewModel.dayNum + 3) % 7]
+
     }
+
 
 
 
