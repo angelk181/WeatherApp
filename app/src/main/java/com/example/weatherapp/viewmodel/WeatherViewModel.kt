@@ -53,6 +53,7 @@ constructor(private val repository: WeatherRepository) : ViewModel() {
 
     }
 
+
     private fun getWeather() = viewModelScope.launch {
         repository.getWeather().let { response ->
             if (response.isSuccessful) {

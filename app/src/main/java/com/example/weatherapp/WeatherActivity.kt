@@ -2,7 +2,6 @@ package com.example.weatherapp
 
 import android.location.Address
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -36,17 +35,10 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
     private lateinit var deviceLocationTracker: DeviceLocationTracker
 
 
-
-
-
-
     // Regex for weather description from Api Service
     private val pattern1 = Regex("rain")
     private val pattern2 = Regex("snow")
     private val pattern3 = Regex("Sunny")
-
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,25 +99,25 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
 
                         when {
                             rainResult -> {
-                                weatherImage.setBackgroundResource(R.mipmap.rain)
+                                weatherImage.setBackgroundResource(R.mipmap.ic_rain)
                                 window.statusBarColor =
                                     ContextCompat.getColor(this@WeatherActivity, R.color.grey2)
                                 return@apply scrollView.setBackgroundResource(R.drawable.background2)
                             }
                             sunnyResult -> {
-                                weatherImage.setBackgroundResource(R.mipmap.sun)
+                                weatherImage.setBackgroundResource(R.mipmap.ic_sun)
                                 window.statusBarColor =
                                     ContextCompat.getColor(this@WeatherActivity, R.color.red)
                                 return@apply scrollView.setBackgroundResource(R.drawable.background3)
                             }
                             snowResult -> {
-                                weatherImage.setBackgroundResource(R.mipmap.snow)
+                                weatherImage.setBackgroundResource(R.mipmap.ic_snow)
                                 window.statusBarColor =
                                     ContextCompat.getColor(this@WeatherActivity, R.color.grey2)
                                 return@apply scrollView.setBackgroundResource(R.drawable.background2)
                             }
                             else -> {
-                                weatherImage.setBackgroundResource(R.mipmap.cloud)
+                                weatherImage.setBackgroundResource(R.mipmap.ic_cloud)
                                 window.statusBarColor =
                                     ContextCompat.getColor(
                                         this@WeatherActivity,
@@ -144,13 +136,11 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
         weatherViewModel.apiResponse.observe(this, {
             response ->
             when (response) {
-                is Resource.Success -> {
-                    Toast.makeText(this, "Weather loaded! :)", Toast.LENGTH_SHORT).show()
-                }
                 is Resource.Error -> {
                     Snackbar.make(binding.scrollView, "Oh no! Theres a network error, the weather will show soon. Please restart the app another time :)",Snackbar.LENGTH_INDEFINITE).show()
                 }
-
+                else -> {
+                }
             }
         }
         )
@@ -187,10 +177,9 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
         val currntLocation = results?.get(0)
         currntLocation?.apply {
 
-           val cityName = subAdminArea
-
             // for Ui threading
             GlobalScope.launch(Dispatchers.Main) {
+                val cityName = subAdminArea
                 binding.tvCity.text = cityName
             }
 
