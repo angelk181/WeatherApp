@@ -3,6 +3,7 @@ package com.example.weatherapp.Response
 import com.example.weatherapp.model.Weather
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 /**
  * The interface which provides methods to get result of webservices
@@ -16,8 +17,13 @@ interface ApiService {
 
     // A method that gets response as an async. these will be wrapped around a coroutine
 
-    @GET("weather/city")
-    suspend fun getWeather():Response<Weather>
+    @GET("weather/{city}")
+    suspend fun getWeather(
+    @Path("city") city: String):Response<Weather>
+
+
+
+
 
 
 

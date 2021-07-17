@@ -59,91 +59,96 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
         weatherViewModel.weatherResponse.observe(this, { weather ->
 
 
-                    binding.apply {
-
-                        tvTemperature.text = weather.temperature
-                        tvDescription.text = weather.description
-                        tvWind.text = weather.wind
+            binding.apply {
 
 
-
-                        val forecast1 = weather.forecast[0]
-                        val forecast2 = weather.forecast[1]
-                        val forecast3 = weather.forecast[2]
-
-                        tvForecast1.text = "${forecast1.temperature}/${forecast2.wind}"
-                        tvForecast2.text = "${forecast2.temperature}/${forecast2.wind}"
-                        tvForecast3.text = "${forecast3.temperature}/${forecast2.wind}"
+                tvTemperature.text = weather.temperature
+                tvDescription.text = weather.description
+                tvWind.text = weather.wind
 
 
-                        val rainResult = pattern1.containsMatchIn(weather.description)
-                        val snowResult = pattern2.containsMatchIn(weather.description)
-                        val sunnyResult = pattern3.containsMatchIn(weather.description)
+                val forecast1 = weather.forecast[0]
+                val forecast2 = weather.forecast[1]
+                val forecast3 = weather.forecast[2]
+
+                tvForecast1.text = "${forecast1.temperature}/${forecast2.wind}"
+                tvForecast2.text = "${forecast2.temperature}/${forecast2.wind}"
+                tvForecast3.text = "${forecast3.temperature}/${forecast2.wind}"
 
 
-                        weatherAnimation = when {
-
-                            rainResult -> {
-                                PrecipType.RAIN
-                            }
-
-                            snowResult -> {
-                                PrecipType.SNOW
-                            }
-                            else -> {
-                                PrecipType.CLEAR
-                            }
-                        }
-
-                        weatherView.setWeatherData(weatherAnimation)
-
-                        when {
-                            rainResult -> {
-                                weatherImage.setBackgroundResource(R.mipmap.ic_rain)
-                                window.statusBarColor =
-                                    ContextCompat.getColor(this@WeatherActivity, R.color.grey2)
-                                return@apply scrollView.setBackgroundResource(R.drawable.background2)
-                            }
-                            sunnyResult -> {
-                                weatherImage.setBackgroundResource(R.mipmap.ic_sun)
-                                window.statusBarColor =
-                                    ContextCompat.getColor(this@WeatherActivity, R.color.red)
-                                return@apply scrollView.setBackgroundResource(R.drawable.background3)
-                            }
-                            snowResult -> {
-                                weatherImage.setBackgroundResource(R.mipmap.ic_snow)
-                                window.statusBarColor =
-                                    ContextCompat.getColor(this@WeatherActivity, R.color.grey2)
-                                return@apply scrollView.setBackgroundResource(R.drawable.background2)
-                            }
-                            else -> {
-                                weatherImage.setBackgroundResource(R.mipmap.ic_cloud)
-                                window.statusBarColor =
-                                    ContextCompat.getColor(
-                                        this@WeatherActivity,
-                                        R.color.colorPrimary
-                                    )
-                                return@apply scrollView.setBackgroundResource(R.drawable.background)
-                            }
-                        }
+                val rainResult = pattern1.containsMatchIn(weather.description)
+                val snowResult = pattern2.containsMatchIn(weather.description)
+                val sunnyResult = pattern3.containsMatchIn(weather.description)
 
 
+                weatherAnimation = when {
+
+                    rainResult -> {
+                        PrecipType.RAIN
                     }
 
-                })
+                    snowResult -> {
+                        PrecipType.SNOW
+                    }
+                    else -> {
+                        PrecipType.CLEAR
+                    }
+                }
+
+                weatherView.setWeatherData(weatherAnimation)
+
+                when {
+                    rainResult -> {
+                        weatherImage.setBackgroundResource(R.mipmap.ic_rain)
+                        window.statusBarColor =
+                            ContextCompat.getColor(this@WeatherActivity, R.color.grey2)
+                        return@apply scrollView.setBackgroundResource(R.drawable.background2)
+                    }
+                    sunnyResult -> {
+                        weatherImage.setBackgroundResource(R.mipmap.ic_sun)
+                        window.statusBarColor =
+                            ContextCompat.getColor(this@WeatherActivity, R.color.red)
+                        return@apply scrollView.setBackgroundResource(R.drawable.background3)
+                    }
+                    snowResult -> {
+                        weatherImage.setBackgroundResource(R.mipmap.ic_snow)
+                        window.statusBarColor =
+                            ContextCompat.getColor(this@WeatherActivity, R.color.grey2)
+                        return@apply scrollView.setBackgroundResource(R.drawable.background2)
+                    }
+                    else -> {
+                        weatherImage.setBackgroundResource(R.mipmap.ic_cloud)
+                        window.statusBarColor =
+                            ContextCompat.getColor(
+                                this@WeatherActivity,
+                                R.color.colorPrimary
+                            )
+                        return@apply scrollView.setBackgroundResource(R.drawable.background)
+                    }
+                }
 
 
-        weatherViewModel.apiResponse.observe(this, {
-            response ->
+            }
+
+        })
+
+
+        weatherViewModel.apiResponse.observe(this, { response ->
             when (response) {
                 is Resource.Error -> {
-                    Snackbar.make(binding.scrollView, "Oh no! Theres a network error, the weather will show soon. Please restart the app another time :)",Snackbar.LENGTH_INDEFINITE).show()
+                    Snackbar.make(
+                        binding.scrollView,
+                        "Oh no! Theres a network error, the weather will show soon. Please restart the app another time :)",
+                        Snackbar.LENGTH_INDEFINITE
+                    ).show()
                 }
                 else -> {
+
                 }
             }
         }
         )
+
         weatherViewModel.day1.observe(this, {
             binding.tvDay1.text = it
 
@@ -170,25 +175,22 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
     }
 
 
-
-
-
     override fun onDeviceLocationChanged(results: List<Address>?) {
         val currntLocation = results?.get(0)
         currntLocation?.apply {
-
+            val cityName = subAdminArea
             // for Ui threading
             GlobalScope.launch(Dispatchers.Main) {
-                val cityName = subAdminArea
+
+                weatherViewModel.getWeather(cityName)
                 binding.tvCity.text = cityName
+
+
             }
 
+
         }
-
-
     }
-
-
 }
 
 

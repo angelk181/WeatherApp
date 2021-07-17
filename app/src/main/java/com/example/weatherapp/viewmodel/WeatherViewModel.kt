@@ -23,6 +23,7 @@ constructor(private val repository: WeatherRepository) : ViewModel() {
     val _response = MutableLiveData<Weather>()
     val apiResponse: MutableLiveData<Resource<Weather>> = MutableLiveData()
     val weatherResponse: LiveData<Weather>
+
     get() = _response
 
     val dayOfWeek: DayOfWeek = LocalDate.now().dayOfWeek
@@ -48,20 +49,17 @@ constructor(private val repository: WeatherRepository) : ViewModel() {
         MutableLiveData<String>()
     }
 
-    init {
-        getWeather()
-
-    }
 
 
-    private fun getWeather() = viewModelScope.launch {
-        repository.getWeather().let { response ->
+
+
+    fun getWeather(city: String) = viewModelScope.launch {
+        repository.getWeather(city).let { response ->
             if (response.isSuccessful) {
                 _response.postValue(response.body())
                 apiResponse.postValue(Resource.Success(response.body()!!))
 
             } else{
-                apiResponse.postValue(Resource.Error(response.message()))
                Log.d("Tag","getWeather Error Response: ${response.message()}")
             }
         }
