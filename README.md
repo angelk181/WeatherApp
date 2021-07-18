@@ -19,7 +19,6 @@ A weather app written in Kotlin that uses animations and displays your local for
 * Livedata
 * Coroutines
 * Retrofit 2
-* Gson Converter
 * Geocoder
 * Dagger/Hilt
 * Open Source Library: WeatherView
