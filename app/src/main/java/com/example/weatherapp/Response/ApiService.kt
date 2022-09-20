@@ -4,6 +4,7 @@ import com.example.weatherapp.model.Weather
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * The interface which provides methods to get result of webservices

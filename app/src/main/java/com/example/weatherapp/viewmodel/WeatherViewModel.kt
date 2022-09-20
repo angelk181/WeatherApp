@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.Util.Resource
 import com.example.weatherapp.model.Weather
 import com.example.weatherapp.repository.WeatherRepository
+import com.skydoves.sandwich.ApiResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
@@ -20,11 +21,10 @@ class WeatherViewModel
 constructor(private val repository: WeatherRepository) : ViewModel() {
 
 
-    val _response = MutableLiveData<Weather>()
-    val apiResponse: MutableLiveData<Resource<Weather>> = MutableLiveData()
-    val weatherResponse: LiveData<Weather>
+    private val _weather = MutableLiveData<Resource<Weather>>()
+    val weather = _weather as LiveData<Resource<Weather>>
 
-    get() = _response
+
 
     val dayOfWeek: DayOfWeek = LocalDate.now().dayOfWeek
     val dayNum: Int = dayOfWeek.value
@@ -56,9 +56,7 @@ constructor(private val repository: WeatherRepository) : ViewModel() {
     fun getWeather(city: String) = viewModelScope.launch {
         repository.getWeather(city).let { response ->
             if (response.isSuccessful) {
-                _response.postValue(response.body())
-                apiResponse.postValue(Resource.Success(response.body()!!))
-
+                _weather.postValue(response.body()?.let { weather ->  Resource.Success(weather.copy()) })
             } else{
                Log.d("Tag","getWeather Error Response: ${response.message()}")
             }

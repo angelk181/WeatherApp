@@ -13,7 +13,5 @@ constructor(private  val apiService: ApiService) {
     suspend fun getWeather(city: String) = apiService.getWeather(city)
 
 
-
-
 }
 

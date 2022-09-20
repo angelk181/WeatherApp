@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 import android.location.Address
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -56,38 +57,39 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
          * observes weather response and applies data
          * from repository to the views
          */
-        weatherViewModel.weatherResponse.observe(this, { weather ->
+        weatherViewModel.weather.observe(this, { weather ->
+
 
 
             binding.apply {
 
 
-                tvTemperature.text = weather.temperature
-                tvDescription.text = weather.description
-                tvWind.text = weather.wind
+                tvTemperature.text = weather.data?.temperature
+                tvDescription.text = weather.data?.description
+                tvWind.text = weather.data?.wind
 
 
-                val forecast1 = weather.forecast[0]
-                val forecast2 = weather.forecast[1]
-                val forecast3 = weather.forecast[2]
+                val forecast1 = weather.data?.forecast?.get(0)
+                val forecast2 = weather.data?.forecast?.get(1)
+                val forecast3 = weather.data?.forecast?.get(2)
 
-                tvForecast1.text = "${forecast1.temperature}/${forecast2.wind}"
-                tvForecast2.text = "${forecast2.temperature}/${forecast2.wind}"
-                tvForecast3.text = "${forecast3.temperature}/${forecast2.wind}"
+                tvForecast1.text = "${forecast1?.temperature}/${forecast2?.wind}"
+                tvForecast2.text = "${forecast2?.temperature}/${forecast2?.wind}"
+                tvForecast3.text = "${forecast3?.temperature}/${forecast2?.wind}"
 
 
-                val rainResult = pattern1.containsMatchIn(weather.description)
-                val snowResult = pattern2.containsMatchIn(weather.description)
-                val sunnyResult = pattern3.containsMatchIn(weather.description)
+                val rainResult = weather?.data?.description?.let { pattern1.containsMatchIn(it) }
+                val snowResult = weather.data?.description?.let { pattern2.containsMatchIn(it) }
+                val sunnyResult = weather?.data?.description?.let { pattern3.containsMatchIn(it) }
 
 
                 weatherAnimation = when {
 
-                    rainResult -> {
+                    rainResult == true -> {
                         PrecipType.RAIN
                     }
 
-                    snowResult -> {
+                    snowResult == true -> {
                         PrecipType.SNOW
                     }
                     else -> {
@@ -98,19 +100,19 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
                 weatherView.setWeatherData(weatherAnimation)
 
                 when {
-                    rainResult -> {
+                    rainResult == true -> {
                         weatherImage.setBackgroundResource(R.mipmap.ic_rain)
                         window.statusBarColor =
                             ContextCompat.getColor(this@WeatherActivity, R.color.grey2)
                         return@apply scrollView.setBackgroundResource(R.drawable.background2)
                     }
-                    sunnyResult -> {
+                    sunnyResult == true -> {
                         weatherImage.setBackgroundResource(R.mipmap.ic_sun)
                         window.statusBarColor =
                             ContextCompat.getColor(this@WeatherActivity, R.color.red)
                         return@apply scrollView.setBackgroundResource(R.drawable.background3)
                     }
-                    snowResult -> {
+                    snowResult == true -> {
                         weatherImage.setBackgroundResource(R.mipmap.ic_snow)
                         window.statusBarColor =
                             ContextCompat.getColor(this@WeatherActivity, R.color.grey2)
@@ -133,8 +135,8 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
         })
 
 
-        weatherViewModel.apiResponse.observe(this, { response ->
-            when (response) {
+        weatherViewModel.weather.observe(this, { weather ->
+            when (weather) {
                 is Resource.Error -> {
                     Snackbar.make(
                         binding.scrollView,
@@ -178,7 +180,9 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
     override fun onDeviceLocationChanged(results: List<Address>?) {
         val currntLocation = results?.get(0)
         currntLocation?.apply {
-            val cityName = subAdminArea
+            val cityName = "London"
+
+            Log.d("City",cityName)
             // for Ui threading
             GlobalScope.launch(Dispatchers.Main) {
 
