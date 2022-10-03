@@ -161,8 +161,8 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onDeviceLocationChanged(results: List<Address>?) {
-        val currntLocation = results?.get(0)
-        currntLocation?.apply {
+        val currentLocation = results?.get(0)
+        currentLocation?.apply {
             val cityName = "London"
 
             Log.d("City",cityName)
