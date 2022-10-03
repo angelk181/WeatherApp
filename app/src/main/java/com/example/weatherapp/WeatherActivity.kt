@@ -44,7 +44,7 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //initialises view binding for main activity
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -135,12 +135,13 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
         })
 
 
-        weatherViewModel.weather.observe(this, { weather ->
+        weatherViewModel.weather.observe(this
+        ) { weather ->
             when (weather) {
                 is Resource.Error -> {
                     Snackbar.make(
                         binding.scrollView,
-                        "Oh no! Theres a network error, the weather will show soon. Please restart the app another time :)",
+                        "Oh no! " + weather.message,
                         Snackbar.LENGTH_INDEFINITE
                     ).show()
                 }
@@ -149,7 +150,6 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
                 }
             }
         }
-        )
 
         weatherViewModel.day1.observe(this, {
             binding.tvDay1.text = it
@@ -159,10 +159,10 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
         weatherViewModel.day2.observe(this,) {
             binding.tvDay2.text = it
         }
-        weatherViewModel.day3.observe(this, {
+        weatherViewModel.day3.observe(this
+        ) {
             binding.tvDay3.text = it
         }
-        )
 
         forecastDays()
 

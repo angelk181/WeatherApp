@@ -1,4 +1,4 @@
-package com.example.weatherapp.Response
+package com.example.weatherapp.Util
 
 // static variable of url to associate with a class
 object Constants {

@@ -26,7 +26,7 @@ constructor(private val repository: WeatherRepository) : ViewModel() {
 
 
 
-    val dayOfWeek: DayOfWeek = LocalDate.now().dayOfWeek
+    private val dayOfWeek: DayOfWeek = LocalDate.now().dayOfWeek
     val dayNum: Int = dayOfWeek.value
 
     val daysMap = mapOf(
@@ -56,9 +56,11 @@ constructor(private val repository: WeatherRepository) : ViewModel() {
     fun getWeather(city: String) = viewModelScope.launch {
         repository.getWeather(city).let { response ->
             if (response.isSuccessful) {
-                _weather.postValue(response.body()?.let { weather ->  Resource.Success(weather.copy()) })
+                _weather.value = response.body()?.copy()?.let { Resource.Success(it) }
+
             } else{
                Log.d("Tag","getWeather Error Response: ${response.message()}")
+                _weather.value = Resource.Error(response.message())
             }
         }
     }

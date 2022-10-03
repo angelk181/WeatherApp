@@ -100,11 +100,14 @@ class DeviceLocationTracker(context: Context, deviceLocationListener: DeviceLoca
             withContext(Dispatchers.IO) {
                 var addressList: List<Address?>? = null
                 try {
-                    addressList = Geocoder(context.get(),
-                        Locale.ENGLISH).getFromLocation(
-                        newDeviceLocation.latitude,
-                        newDeviceLocation.longitude,
-                        1)
+                    addressList = context.get()?.let {
+                        Geocoder(
+                            it,
+                            Locale.ENGLISH).getFromLocation(
+                            newDeviceLocation.latitude,
+                            newDeviceLocation.longitude,
+                            1)
+                    }
                     deviceLocationListener.onDeviceLocationChanged(addressList)
                     Log.i(TAG, "Fetch address list"+addressList)
                 } catch (e: IOException) {

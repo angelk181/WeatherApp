@@ -25,8 +25,6 @@ class SplashActivity : AppCompatActivity() {
 
 
 
-
-
         val generalLayout = findViewById<LinearLayout>(R.id.generalLayout)
         lifecycleScope.launch {
             if (NetworkHelper.isNetworkConnected(this@SplashActivity)) {
