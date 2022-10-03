@@ -60,13 +60,9 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
                 tvWind.text = weather.data?.wind
 
 
-                val forecast1 = weather.data?.forecast?.get(0)
-                val forecast2 = weather.data?.forecast?.get(1)
-                val forecast3 = weather.data?.forecast?.get(2)
-
-                tvForecast1.text = "${forecast1?.temperature}/${forecast2?.wind}"
-                tvForecast2.text = "${forecast2?.temperature}/${forecast2?.wind}"
-                tvForecast3.text = "${forecast3?.temperature}/${forecast2?.wind}"
+                tvForecast1.text = "${weather.data?.forecast?.get(0)?.temperature}/${weather.data?.forecast?.get(0)?.wind}"
+                tvForecast2.text = "${weather.data?.forecast?.get(1)?.temperature}/${weather.data?.forecast?.get(1)?.wind}"
+                tvForecast3.text = "${weather.data?.forecast?.get(2)?.temperature}/${weather.data?.forecast?.get(2)?.wind}"
 
 
                 val rainResult = weather?.data?.description?.let { pattern1.containsMatchIn(it) }
