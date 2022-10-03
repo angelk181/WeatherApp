@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.Util.ViewState
+import com.example.weatherapp.model.ForecastDayModel
 import com.example.weatherapp.model.Weather
 import com.example.weatherapp.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,12 +24,15 @@ constructor(private val repository: WeatherRepository) : ViewModel() {
     private val _weather = MutableLiveData<ViewState<Weather>>()
     val weather = _weather as LiveData<ViewState<Weather>>
 
+    private var _forecastDays = MutableLiveData<ForecastDayModel>()
+    val forecastDays = _forecastDays as LiveData<ForecastDayModel>
+
 
 
     private val dayOfWeek: DayOfWeek = LocalDate.now().dayOfWeek
-    val dayNum: Int = dayOfWeek.value
+    private val dayNum: Int = dayOfWeek.value
 
-    val daysMap = mapOf(
+    private val daysMap = mapOf(
         0 to "Sunday",
         1 to "Monday",
         2 to "Tuesday",
@@ -38,24 +42,13 @@ constructor(private val repository: WeatherRepository) : ViewModel() {
         6 to "Saturday"
     )
 
-    val day1: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-    val day2: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-    val day3: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-
     fun setForecastDays() {
-        day1.value = daysMap[(dayNum + 1) % 7]
-        day2.value = daysMap[(dayNum + 2) % 7]
-        day3.value = daysMap[(dayNum + 3) % 7]
+        _forecastDays.value = ForecastDayModel(
+            daysMap[(dayNum + 1) % 7],
+            daysMap[(dayNum + 2) % 7],
+            daysMap[(dayNum + 3) % 7]
+        )
     }
-
-
-
 
 
     fun getWeather(city: String) = viewModelScope.launch {

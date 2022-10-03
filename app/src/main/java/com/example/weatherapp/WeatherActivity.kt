@@ -142,17 +142,21 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
             }
         }
 
-        weatherViewModel.day1.observe(this
-        ) {
-            binding.tvDay1.text = it
-
-        }
-        weatherViewModel.day2.observe(this,) {
-            binding.tvDay2.text = it
-        }
-        weatherViewModel.day3.observe(this
-        ) {
-            binding.tvDay3.text = it
+//        weatherViewModel.day1.observe(this
+//        ) {
+//
+//
+//        }
+//        weatherViewModel.day2.observe(this,) {
+//
+//        }
+//        weatherViewModel.day3.observe(this
+//        ) {
+//        }
+        weatherViewModel.forecastDays.observe(this) {
+            binding.tvDay1.text = it.dayOne
+            binding.tvDay2.text = it.dayTwo
+            binding.tvDay3.text = it.dayThree
         }
 
         weatherViewModel.setForecastDays()
