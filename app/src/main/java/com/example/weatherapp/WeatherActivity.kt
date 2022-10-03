@@ -155,18 +155,9 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
             binding.tvDay3.text = it
         }
 
-        forecastDays()
+        weatherViewModel.setForecastDays()
 
     }
-
-    private fun forecastDays() {
-
-        weatherViewModel.day1.value = weatherViewModel.daysMap[(weatherViewModel.dayNum + 1) % 7]
-        weatherViewModel.day2.value = weatherViewModel.daysMap[(weatherViewModel.dayNum + 2) % 7]
-        weatherViewModel.day3.value = weatherViewModel.daysMap[(weatherViewModel.dayNum + 3) % 7]
-
-    }
-
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onDeviceLocationChanged(results: List<Address>?) {

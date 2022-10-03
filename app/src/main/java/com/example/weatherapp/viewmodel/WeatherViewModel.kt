@@ -48,6 +48,12 @@ constructor(private val repository: WeatherRepository) : ViewModel() {
         MutableLiveData<String>()
     }
 
+    fun setForecastDays() {
+        day1.value = daysMap[(dayNum + 1) % 7]
+        day2.value = daysMap[(dayNum + 2) % 7]
+        day3.value = daysMap[(dayNum + 3) % 7]
+    }
+
 
 
 
