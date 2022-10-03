@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.example.weatherapp.Util.DeviceLocationTracker
-import com.example.weatherapp.Util.Resource
+import com.example.weatherapp.Util.ViewState
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.github.matteobattilana.weather.PrecipType
@@ -17,15 +17,12 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import java.util.*
 
 @AndroidEntryPoint
 class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocationListener {
 
-    //calls view binding object
     private lateinit var binding: ActivityMainBinding
 
-    //view Model object
     private val weatherViewModel: WeatherViewModel by viewModels()
 
     // weather animation object to initialize
@@ -36,7 +33,6 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
     private lateinit var deviceLocationTracker: DeviceLocationTracker
 
 
-    // Regex for weather description from Api Service
     private val pattern1 = Regex("rain")
     private val pattern2 = Regex("snow")
     private val pattern3 = Regex("Sunny")
@@ -53,12 +49,7 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        /**
-         * observes weather response and applies data
-         * from repository to the views
-         */
-        weatherViewModel.weather.observe(this, { weather ->
-
+        weatherViewModel.weather.observe(this) { weather ->
 
 
             binding.apply {
@@ -132,13 +123,13 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
 
             }
 
-        })
+        }
 
 
         weatherViewModel.weather.observe(this
         ) { weather ->
             when (weather) {
-                is Resource.Error -> {
+                is ViewState.Error -> {
                     Snackbar.make(
                         binding.scrollView,
                         "Oh no! " + weather.message,
@@ -151,11 +142,11 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
             }
         }
 
-        weatherViewModel.day1.observe(this, {
+        weatherViewModel.day1.observe(this
+        ) {
             binding.tvDay1.text = it
 
         }
-        )
         weatherViewModel.day2.observe(this,) {
             binding.tvDay2.text = it
         }
@@ -177,6 +168,7 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
     }
 
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onDeviceLocationChanged(results: List<Address>?) {
         val currntLocation = results?.get(0)
         currntLocation?.apply {

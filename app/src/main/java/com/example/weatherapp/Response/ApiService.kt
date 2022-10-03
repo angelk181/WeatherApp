@@ -6,26 +6,10 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-/**
- * The interface which provides methods to get result of webservices
- * Gets the post request from the api
- * interface as retrofit has been set to generate the implementation
- * dagger will inject api where it's needed
- */
-
 interface ApiService {
-
-
-    // A method that gets response as an async. these will be wrapped around a coroutine
 
     @GET("weather/{city}")
     suspend fun getWeather(
     @Path("city") city: String):Response<Weather>
-
-
-
-
-
-
 
 }
