@@ -54,7 +54,6 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
 
             binding.apply {
 
-
                 tvTemperature.text = weather.data?.temperature
                 tvDescription.text = weather.data?.description
                 tvWind.text = weather.data?.wind
