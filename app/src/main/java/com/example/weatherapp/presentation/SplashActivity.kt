@@ -1,4 +1,4 @@
-package com.example.weatherapp
+package com.example.weatherapp.presentation
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,8 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.example.weatherapp.Network.NetworkHelper
+import com.example.weatherapp.R
+import com.example.weatherapp.network.NetworkHelper
 import com.example.weatherapp.databinding.ActivitySplashBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch

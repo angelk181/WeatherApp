@@ -1,4 +1,4 @@
-package com.example.weatherapp.Util
+package com.example.weatherapp.util
 
 
 sealed class ViewState<T>(val data: T? = null, val message: String? = null) {

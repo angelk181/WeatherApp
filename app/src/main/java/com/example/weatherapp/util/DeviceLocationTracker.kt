@@ -1,4 +1,4 @@
-package com.example.weatherapp.Util
+package com.example.weatherapp.util
 
 import android.Manifest
 import android.app.AlertDialog

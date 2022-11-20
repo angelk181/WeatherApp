@@ -1,9 +1,9 @@
 package com.example.weatherapp.di
 
-import com.example.weatherapp.Response.ApiService
-import com.example.weatherapp.Util.Constants
-import com.example.weatherapp.Util.Constants.Base_Url
-import com.example.weatherapp.repository.WeatherRepository
+import com.example.weatherapp.data.remote.WeatherApi
+import com.example.weatherapp.data.remote.repository.WeatherRepositoryImpl
+import com.example.weatherapp.domain.repository.WeatherRepository
+import com.example.weatherapp.util.Constants.Base_Url
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,16 +19,16 @@ object AppModule {
     
     @Provides
     @Singleton
-    fun providesRepository(apiService: ApiService) = WeatherRepository(apiService)
+    fun providesRepository(weatherApi: WeatherApi): WeatherRepository = WeatherRepositoryImpl(weatherApi)
 
     @Provides
     @Singleton
-    fun provideRetrofitInstance(): ApiService =
+    fun provideRetrofitInstance(): WeatherApi =
         Retrofit.Builder()
             .baseUrl(Base_Url)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ApiService::class.java)
+            .create(WeatherApi::class.java)
 
 
 }

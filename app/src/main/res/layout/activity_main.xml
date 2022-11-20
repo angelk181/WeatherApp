@@ -7,7 +7,7 @@
     android:background="@drawable/background"
     android:fillViewport="true"
     android:orientation="vertical"
-    tools:context=".WeatherActivity">
+    tools:context=".presentation.WeatherActivity">
 
 
     <RelativeLayout
