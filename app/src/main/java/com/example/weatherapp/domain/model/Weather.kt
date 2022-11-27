@@ -6,5 +6,4 @@ data class Weather(
     val forecast: List<Forecast>,
     val temperature: String,
     val wind: String,
-
     )

@@ -168,10 +168,7 @@ class WeatherActivity() : AppCompatActivity(), DeviceLocationTracker.DeviceLocat
                 weatherViewModel.getWeather(cityName)
                 binding.tvCity.text = cityName
 
-
             }
-
-
         }
 
     }

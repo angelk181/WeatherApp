@@ -30,8 +30,6 @@ constructor(private val weatherUseCase: WeatherUseCase,
     private var _forecastDays = MutableLiveData<ForecastDayModel>()
     val forecastDays = _forecastDays as LiveData<ForecastDayModel>
 
-
-
     private val dayOfWeek: DayOfWeek = LocalDate.now().dayOfWeek
     private val dayNum: Int = dayOfWeek.value
 

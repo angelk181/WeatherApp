@@ -36,9 +36,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.example.weatherapp'
 }
 
 dependencies {
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     def hilt_version = "2.44"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -72,8 +75,6 @@ dependencies {
 
     //weather view
     implementation 'com.github.MatteoBattilana:WeatherView:3.0.0'
-
-
 
     //location
     implementation'com.google.android.gms:play-services-location:20.0.0'
