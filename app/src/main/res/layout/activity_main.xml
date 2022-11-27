@@ -1,169 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scrollView"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:fillViewport="true"
-    android:orientation="vertical"
-    tools:context=".presentation.WeatherActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.MainActivity">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.github.matteobattilana.weather.WeatherView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/weatherView"/>
-
-
-
-    <LinearLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment_main"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-
-        <TextView
-        android:id="@+id/tvCity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:text="Your City"
-        android:textColor="@color/white" />
-
-    <TextView
-        android:id="@+id/tvTemperature"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:textSize="90sp"
-        android:gravity="center"
-        android:text="@string/temperature"
-        android:textColor="@color/white" />
-
-        <ImageView
-            android:id="@+id/weatherImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10sp"
-            android:background="@mipmap/ic_cloud"/>
-
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10sp"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:text="@string/weatherDescription"
-        android:textColor="@color/white" />
-    <TextView
-        android:id="@+id/tvWind"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30sp"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:text="@string/windSpeed"
-        android:textColor="@color/white" />
-
-        <LinearLayout
-            android:id="@+id/forecastDays"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginTop="30dp"
-            >
-        <TextView
-            android:id="@+id/tvDay1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:text="Thursday"
-            android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tvForecast1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="20km/h"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/tvDay2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="20sp"
-                android:text="Friday"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tvForecast2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="20km/h"
-                android:textColor="@color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/tvDay3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="20sp"
-                android:text="Saturday"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tvForecast3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="20km/h"
-                android:textColor="@color/white" />
-
-
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    </RelativeLayout>
-</ScrollView>
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

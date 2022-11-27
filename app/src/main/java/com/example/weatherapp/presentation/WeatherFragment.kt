@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -21,6 +23,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -32,8 +35,6 @@ class WeatherFragment : Fragment(), DeviceLocationTracker.DeviceLocationListener
     private val binding get() = _binding!!
 
     private val viewModel by viewModels<WeatherViewModel>()
-
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private lateinit var deviceLocationTracker: DeviceLocationTracker
 
@@ -53,6 +54,13 @@ class WeatherFragment : Fragment(), DeviceLocationTracker.DeviceLocationListener
                     when (state) {
                         WeatherState(isLoading = state.isLoading) -> {
                         }
+                        WeatherState(error = state.error) -> {
+                            Snackbar.make(
+                                binding.clWeatherHome,
+                                "Oh no! " + state.error,
+                                Snackbar.LENGTH_INDEFINITE
+                            ).show()
+                        }
                         WeatherState(results = state.results) -> {
                             binding.apply {
 
@@ -61,15 +69,18 @@ class WeatherFragment : Fragment(), DeviceLocationTracker.DeviceLocationListener
                                 tvWind.text = state.results?.wind
 
 
-                                tvForecast1.text = "${state.results?.forecast?.get(0)?.temperature}/${
-                                    state.results?.forecast?.get(0)?.wind
-                                }"
-                                tvForecast2.text = "${state.results?.forecast?.get(1)?.temperature}/${
-                                    state.results?.forecast?.get(1)?.wind
-                                }"
-                                tvForecast3.text = "${state.results?.forecast?.get(2)?.temperature}/${
-                                    state.results?.forecast?.get(2)?.wind
-                                }"
+                                tvForecast1.text =
+                                    "${state.results?.forecast?.get(0)?.temperature}/${
+                                        state.results?.forecast?.get(0)?.wind
+                                    }"
+                                tvForecast2.text =
+                                    "${state.results?.forecast?.get(1)?.temperature}/${
+                                        state.results?.forecast?.get(1)?.wind
+                                    }"
+                                tvForecast3.text =
+                                    "${state.results?.forecast?.get(2)?.temperature}/${
+                                        state.results?.forecast?.get(2)?.wind
+                                    }"
 
 
                                 val rainResult =
@@ -100,6 +111,7 @@ class WeatherFragment : Fragment(), DeviceLocationTracker.DeviceLocationListener
                                     rainResult == true -> {
                                         weatherImage.setBackgroundResource(R.mipmap.ic_rain)
                                         clWeatherHome.setBackgroundResource(R.drawable.background2)
+
                                     }
                                     sunnyResult == true -> {
                                         weatherImage.setBackgroundResource(R.mipmap.ic_sun)
@@ -119,34 +131,29 @@ class WeatherFragment : Fragment(), DeviceLocationTracker.DeviceLocationListener
                             }
                         }
 
-                        WeatherState(error = state.error) -> {
 
-                            Snackbar.make(
-                                binding.clWeatherHome,
-                                "Oh no! " + state.error,
-                                Snackbar.LENGTH_INDEFINITE
-                            ).show()
-                        }
                     }
                 }
             }
-            viewModel.forecastDays.observe(viewLifecycleOwner)
-            {
-                binding.tvDay1.text = it.dayOne
-                binding.tvDay2.text = it.dayTwo
-                binding.tvDay3.text = it.dayThree
-            }
+        }
 
-            viewModel.setForecastDays()
+        viewModel.forecastDays.observe(viewLifecycleOwner)
+        {
+            binding.tvDay1.text = it.dayOne
+            binding.tvDay2.text = it.dayTwo
+            binding.tvDay3.text = it.dayThree
+        }
 
-            }
+        viewModel.setForecastDays()
+
+
         }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.requireContext())
         deviceLocationTracker = DeviceLocationTracker(this.requireContext(), this)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
     override fun onDestroyView() {
@@ -162,21 +169,21 @@ class WeatherFragment : Fragment(), DeviceLocationTracker.DeviceLocationListener
         return binding.root
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onDeviceLocationChanged(results: List<Address>?) {
         val currentLocation = results?.get(0)
         currentLocation?.apply {
-            val cityName = this.subLocality
+            val cityName = "London"
 
             Log.d("City", cityName)
             // for Ui threading
             GlobalScope.launch(Dispatchers.Main) {
 
-                viewModel.getWeather(cityName)
-                binding.tvCity.text = cityName
+                viewModel.getWeather(currentLocation.subAdminArea)
+                binding.tvCity.text = currentLocation.subAdminArea
 
             }
         }
     }
-
 
 }

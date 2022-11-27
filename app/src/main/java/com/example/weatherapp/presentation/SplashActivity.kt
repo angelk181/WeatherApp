@@ -33,7 +33,7 @@ class SplashActivity : AppCompatActivity() {
                 binding.appIcon.animate().setDuration(1500).alpha(1f).withEndAction {
 
 
-                    val intent = Intent(applicationContext, WeatherActivity::class.java)
+                    val intent = Intent(applicationContext, MainActivity::class.java)
                     startActivity(intent)
                     overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
                     finish()
