@@ -25,7 +25,6 @@ class SplashActivity : AppCompatActivity() {
             ContextCompat.getColor(this, R.color.red)
 
 
-
         val generalLayout = findViewById<LinearLayout>(R.id.generalLayout)
         lifecycleScope.launch {
             if (NetworkHelper.isNetworkConnected(this@SplashActivity)) {

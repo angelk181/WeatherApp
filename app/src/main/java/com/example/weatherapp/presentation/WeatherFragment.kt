@@ -53,6 +53,17 @@ class WeatherFragment : Fragment(), DeviceLocationTracker.DeviceLocationListener
 
                     when (state) {
                         WeatherState(isLoading = state.isLoading) -> {
+                            binding.apply {
+                                tvCity.visibility = View.INVISIBLE
+                                pbWeather.visibility = View.VISIBLE
+                                tvTemperature.visibility = View.INVISIBLE
+                                weatherImage.visibility = View.INVISIBLE
+                                tvDescription.visibility = View.INVISIBLE
+                                tvWind.visibility = View.INVISIBLE
+                                forecastDayOne.visibility = View.INVISIBLE
+                                forecastDayTwo.visibility = View.INVISIBLE
+                                forecastDayThree.visibility = View.INVISIBLE
+                            }
                         }
                         WeatherState(error = state.error) -> {
                             Snackbar.make(
@@ -64,6 +75,15 @@ class WeatherFragment : Fragment(), DeviceLocationTracker.DeviceLocationListener
                         WeatherState(results = state.results) -> {
                             binding.apply {
 
+                                tvCity.visibility = View.VISIBLE
+                                pbWeather.visibility = View.GONE
+                                tvTemperature.visibility = View.VISIBLE
+                                weatherImage.visibility = View.VISIBLE
+                                tvDescription.visibility = View.VISIBLE
+                                tvWind.visibility = View.VISIBLE
+                                forecastDayOne.visibility = View.VISIBLE
+                                forecastDayTwo.visibility = View.VISIBLE
+                                forecastDayThree.visibility = View.VISIBLE
                                 tvTemperature.text = state.results?.temperature
                                 tvDescription.text = state.results?.description
                                 tvWind.text = state.results?.wind

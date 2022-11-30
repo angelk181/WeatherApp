@@ -24,6 +24,15 @@
         tools:text="Your City"
         android:textColor="@color/white" />
 
+    <ProgressBar
+        android:id="@+id/pb_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/weatherImage"
+        app:layout_constraintStart_toStartOf="@id/weatherImage"
+        app:layout_constraintEnd_toEndOf="@id/weatherImage" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTemperature"
         android:layout_width="match_parent"
