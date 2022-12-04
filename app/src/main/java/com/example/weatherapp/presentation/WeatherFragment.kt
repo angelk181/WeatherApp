@@ -193,9 +193,8 @@ class WeatherFragment : Fragment(), DeviceLocationTracker.DeviceLocationListener
     override fun onDeviceLocationChanged(results: List<Address>?) {
         val currentLocation = results?.get(0)
         currentLocation?.apply {
-            val cityName = "London"
 
-            Log.d("City", cityName)
+            Log.d("City", currentLocation.subAdminArea)
             // for Ui threading
             GlobalScope.launch(Dispatchers.Main) {
 
