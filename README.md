@@ -17,6 +17,7 @@ A weather app written in Kotlin that uses animations and displays your local for
 * MVVM
 * View Binding
 * Livedata
+* Kotlin Flows
 * Coroutines
 * Retrofit 2
 * Geocoder
