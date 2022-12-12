@@ -50,6 +50,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     def hilt_version = "2.44"
 
+    //Compose
     implementation "androidx.compose.material:material:1.3.0-rc01"
     implementation "androidx.compose.compiler:compiler:1.3.2"
     implementation "androidx.compose.ui:ui-tooling-preview:1.3.0-rc01"
@@ -84,6 +85,7 @@ dependencies {
     //dagger-hilt
     implementation"com.google.dagger:hilt-android:$hilt_version"
     kapt"com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation"androidx.hilt:hilt-navigation-compose:1.0.0"
 
     //weather view
     implementation 'com.github.MatteoBattilana:WeatherView:3.0.0'
