@@ -7,9 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,8 +17,6 @@ import com.example.weatherapp.databinding.FragmentWeatherBinding
 import com.example.weatherapp.presentation.viewmodel.WeatherViewModel
 import com.example.weatherapp.util.DeviceLocationTracker
 import com.github.matteobattilana.weather.PrecipType
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -49,7 +45,7 @@ class WeatherFragment : Fragment(), DeviceLocationTracker.DeviceLocationListener
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.weather.collect { state ->
+                viewModel.weatherState.collect { state ->
 
                     when (state) {
                         WeatherState(isLoading = state.isLoading) -> {

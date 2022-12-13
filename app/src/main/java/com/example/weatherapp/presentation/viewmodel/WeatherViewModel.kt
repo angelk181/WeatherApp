@@ -1,5 +1,7 @@
 package com.example.weatherapp.presentation.viewmodel
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,9 +10,10 @@ import com.example.weatherapp.util.ViewState
 import com.example.weatherapp.domain.model.ForecastDayModel
 import com.example.weatherapp.domain.usecase.WeatherUseCase
 import com.example.weatherapp.presentation.WeatherState
+import com.example.weatherapp.util.DeviceLocationTracker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.time.DayOfWeek
@@ -21,11 +24,11 @@ import javax.inject.Inject
 class WeatherViewModel
 @Inject
 constructor(private val weatherUseCase: WeatherUseCase,
-) : ViewModel() {
+) : ViewModel(){
 
 
-    private val _weather = MutableStateFlow(WeatherState())
-    val weather = _weather.asStateFlow()
+    private val _weatherState = MutableStateFlow(WeatherState())
+    val weatherState: StateFlow<WeatherState> = _weatherState
 
     private var _forecastDays = MutableLiveData<ForecastDayModel>()
     val forecastDays = _forecastDays as LiveData<ForecastDayModel>
@@ -57,13 +60,13 @@ constructor(private val weatherUseCase: WeatherUseCase,
             result ->
             when (result) {
                 is ViewState.Loading -> {
-                    _weather.value = WeatherState(isLoading = true)
+                    _weatherState.value = WeatherState(isLoading = true)
                 }
                 is ViewState.Success -> {
-                    _weather.value = WeatherState(results = result.data)
+                    _weatherState.value = WeatherState(results = result.data)
                 }
                 is ViewState.Error -> {
-                    _weather.value = WeatherState(error = result.message ?: "Unexpected error occurred")
+                    _weatherState.value = WeatherState(error = result.message ?: "Unexpected error occurred")
 
                 }
 
